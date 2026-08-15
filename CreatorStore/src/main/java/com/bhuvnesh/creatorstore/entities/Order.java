@@ -1,6 +1,7 @@
 package com.bhuvnesh.creatorstore.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,7 +33,7 @@ public class Order {
     @Column(name = "total_price",nullable = false)
     private BigDecimal totalPrice;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 

@@ -68,12 +68,16 @@ public class OrderService {
                     .priceAtPurchase(product.getPrice())
                     .build();
 
+            System.out.println("It prints: "+orderItem.getQuantity());
+
             orderItems.add(orderItem);
         }
 
         //update the order object
         order.setTotalPrice(totalPrice);
         order.setOrderItems(orderItems);
+
+        System.out.println("Prints from the list: "+orderItems.get(0).getQuantity());
 
         return orderRepository.save(order);
     }
