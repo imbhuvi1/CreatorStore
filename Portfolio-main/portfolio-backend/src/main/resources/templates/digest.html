@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Weekly portfolio digest</title></head>
+<body style="font-family: -apple-system, Segoe UI, Arial, sans-serif; color:#101427; background:#eef1fa; padding:24px; margin:0;">
+<div style="max-width:640px;margin:auto;background:#ffffff;border-radius:14px;padding:28px; box-shadow:0 8px 40px rgba(15,25,60,0.08);">
+
+    <div style="font-family: ui-monospace, Menlo, monospace; font-size:.8rem; color:#0369a1; letter-spacing:.16em; text-transform:uppercase;">
+        // portfolio · weekly digest
+    </div>
+    <h1 style="font-family: Georgia, serif; margin: 6px 0 20px; color:#101427; font-size: 1.8rem;">
+        Hi <span th:text="${ownerName}">there</span>, here's your week
+    </h1>
+
+    <div th:if="${quiet}" style="background:#fff7ed; border:1px solid #fed7aa; border-radius:12px; padding:16px 18px; color:#7c2d12;">
+        A quiet week. No messages, no page views. Consider sharing your portfolio on LinkedIn or in a community.
+    </div>
+
+    <div th:unless="${quiet}">
+        <table role="presentation" width="100%" style="border-collapse: separate; border-spacing: 10px 0; margin: 8px 0 20px;">
+            <tr>
+                <td style="background:#f7f9fc; border-radius:12px; padding:14px 16px; width:33%;">
+                    <div style="color:#6b7280; font-family: ui-monospace, Menlo, monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em;">New messages</div>
+                    <div style="font-size: 1.8rem; font-weight:700; margin-top:4px;" th:text="${messageCount}">0</div>
+                </td>
+                <td style="background:#f7f9fc; border-radius:12px; padding:14px 16px; width:33%;">
+                    <div style="color:#6b7280; font-family: ui-monospace, Menlo, monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em;">Page views</div>
+                    <div style="font-size: 1.8rem; font-weight:700; margin-top:4px;" th:text="${pageViews}">0</div>
+                </td>
+                <td style="background:#f7f9fc; border-radius:12px; padding:14px 16px; width:33%;">
+                    <div style="color:#6b7280; font-family: ui-monospace, Menlo, monospace; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em;">Resume DLs</div>
+                    <div style="font-size: 1.8rem; font-weight:700; margin-top:4px;" th:text="${resumeDownloads}">0</div>
+                </td>
+            </tr>
+        </table>
+
+        <div th:if="${messageCount > 0}">
+            <h2 style="font-family: Georgia, serif; font-size: 1.2rem; margin: 20px 0 10px; color:#101427;">
+                Messages this week
+            </h2>
+            <div th:each="m : ${messages}" style="border:1px solid #e5e7eb; border-radius:12px; padding:14px 16px; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+                    <strong th:text="${m.name}">Name</strong>
+                    <span style="color:#6b7280; font-size:.85rem;" th:text="${#temporals.format(m.createdAt, 'MMM d')}">Jan 1</span>
+                </div>
+                <div style="color:#6b7280; font-size:.9rem;" th:text="${m.email}">email</div>
+                <div style="margin-top:6px; font-weight:600;" th:text="${m.subject}">Subject</div>
+                <div style="margin-top:6px; white-space:pre-wrap; color:#374151; font-size:.94rem;"
+                     th:text="${#strings.abbreviate(m.message, 240)}">preview</div>
+            </div>
+        </div>
+
+        <div th:if="${!topProjects.empty}">
+            <h2 style="font-family: Georgia, serif; font-size: 1.2rem; margin: 20px 0 10px; color:#101427;">
+                Top projects
+            </h2>
+            <table role="presentation" width="100%" style="border-collapse:collapse;">
+                <tr th:each="p : ${topProjects}" style="border-bottom:1px dashed #e5e7eb;">
+                    <td style="padding:8px 0;" th:text="${p.title}">Project</td>
+                    <td style="padding:8px 0; text-align:right; color:#0369a1; font-family: ui-monospace, monospace;"
+                        th:text="${p.views} + ' views'">0 views</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <p style="color:#6b7280; font-size:.82rem; margin-top:24px; text-align:center;">
+        Data since <span th:text="${#temporals.format(since, 'MMM d, yyyy')}">last week</span>.
+        You are receiving this because DIGEST_ENABLED=true.
+    </p>
+</div>
+</body>
+</html>

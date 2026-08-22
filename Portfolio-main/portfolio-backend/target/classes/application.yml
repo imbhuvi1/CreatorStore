@@ -1,0 +1,78 @@
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+    include-stacktrace: never
+
+spring:
+  application:
+    name: portfolio-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/portfolio}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:Bhuvi@123}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+portfolio:
+  owner:
+    name: ${OWNER_NAME:[YOUR_NAME]}
+    email: ${OWNER_EMAIL:[YOUR_EMAIL]}
+  mail:
+    from: ${MAIL_FROM:no-reply@portfolio.local}
+    enabled: ${MAIL_ENABLED:false}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  rate-limit:
+    contact-per-hour: ${CONTACT_RATE_LIMIT:5}
+  admin:
+    username: ${ADMIN_USERNAME:admin}
+    email: ${ADMIN_EMAIL:bhuvneshsingh292@gmail.com}
+    password: ${ADMIN_PASSWORD:admin@123}
+  jwt:
+    secret: ${JWT_SECRET:}
+    expires-minutes: ${JWT_EXPIRES_MINUTES:120}
+  digest:
+    enabled: ${DIGEST_ENABLED:false}
+    cron: ${DIGEST_CRON:0 30 8 * * MON}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when-authorized
+
+springdoc:
+  api-docs:
+    path: /api/v3/api-docs
+  swagger-ui:
+    path: /api/swagger-ui.html
